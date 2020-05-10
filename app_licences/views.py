@@ -14,12 +14,12 @@ def licence_list(request):
         serializer = LicenceSerializer(licences, many=True)
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
-        data = JSONPaser().parse(request)
+        data = JSONParser().parse(request)
         serializer = LicenceSerializer(data = data)
 
         if serializer.is_valid():
             serializer.save()
-            return JsonReponse(serializer.data, status = 201)
+            return JsonResponse(serializer.data, status = 201)
         return JsonResponse(serializer.errors, status = 400)
 
 
@@ -41,5 +41,5 @@ def licence_details(request, pk):
             return JsonResponse(serializer.data)
         return HttpResponse(status=400)
     elif request.method == 'DELETE':
-        company.delete()
+        licence.delete()
         return HttpResponse(status=204)
