@@ -32,7 +32,7 @@ def licence_details(request, pk):
 
     if request.method == 'GET':
         serializer = LicenceSerializer(licence)
-        return JsonResponse(serialiser.data, safe=False)
+        return JsonResponse(serializer.data, safe=False)
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
         serializer = LicenceSerializer(licence, data = data)
