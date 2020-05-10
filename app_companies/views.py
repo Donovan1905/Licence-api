@@ -21,3 +21,24 @@ def company_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status = 201)
         return JsonResponse(serializer.errors, status = 400 )
+
+@csrf_exempt
+def company_details(request, pk):
+    try:
+        company = Company.objects.get(pk=pk)
+    except Company.DoesNotExist:
+        return HttpResponse(status=400)
+
+    if request.method == 'GET':
+        serializer = CompanySerializer(company)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = CompanySerializer(company, data = data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return HttpResponse(status=400)
+    elif request.method == 'DELETE':
+        company.delete()
+        return HttpResponse(status=204)
