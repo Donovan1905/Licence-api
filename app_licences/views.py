@@ -5,6 +5,7 @@ from .models import Licence
 from .serializers import LicenceSerializer
 from django.views.decorators.csrf import csrf_exempt
 from app_companies.models import Company
+from app_users.models import FakeUser
 
 
 @csrf_exempt
@@ -43,3 +44,16 @@ def licence_details(request, pk):
     elif request.method == 'DELETE':
         licence.delete()
         return HttpResponse(status=204)
+
+
+def ask_licence(request, pk):
+    try:
+        user = FakeUser.objects.get(pk=pk)
+        licence = Licence.objects.filter(company=user.company).first()
+    except Licence.DoesNotExist:
+        return HttpResponse("Sorry your company doesn't have licence", status=400)
+
+
+    if request.method == 'GET':
+        serializer = LicenceSerializer(licence)
+        return JsonResponse(serializer.data, safe=False)
