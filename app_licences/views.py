@@ -6,6 +6,7 @@ from .serializers import LicenceSerializer
 from django.views.decorators.csrf import csrf_exempt
 from app_companies.models import Company
 from app_users.models import FakeUser
+from django.utils.crypto import get_random_string
 
 
 @csrf_exempt
@@ -57,3 +58,11 @@ def ask_licence(request, pk):
     if request.method == 'GET':
         serializer = LicenceSerializer(licence)
         return JsonResponse(serializer.data, safe=False)
+
+
+def buy_licences(request, company_name, quantity):
+    key = get_random_string(length=20)
+    company = Company.objects.get(name=company_name)
+    licence = Licence(key=key, company=company)
+    licence.save()
+    return HttpResponse('licence registred')
