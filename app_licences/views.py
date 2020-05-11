@@ -16,6 +16,8 @@ def licence_list(request):
         serializer = LicenceSerializer(licences, many=True)
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
+        return HttpResponse('cannot create a licence from json you nedd to buy it from /buy/<commpany_name>/<quantity>')
+        '''
         data = JSONParser().parse(request)
         serializer = LicenceSerializer(data = data)
 
@@ -23,6 +25,7 @@ def licence_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status = 201)
         return JsonResponse(serializer.errors, status = 400)
+        '''
 
 
 @csrf_exempt
@@ -61,8 +64,9 @@ def ask_licence(request, pk):
 
 
 def buy_licences(request, company_name, quantity):
-    key = get_random_string(length=20)
-    company = Company.objects.get(name=company_name)
-    licence = Licence(key=key, company=company)
-    licence.save()
+    for i in range(quantity):
+        key = get_random_string(length=20)
+        company = Company.objects.get(name=company_name)
+        licence = Licence(key=key, company=company)
+        licence.save()
     return HttpResponse('licence registred')
