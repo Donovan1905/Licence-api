@@ -4,6 +4,8 @@ from rest_framework.parsers import JSONParser
 from .models import Company
 from .serializers import CompanySerializer
 from django.views.decorators.csrf import csrf_exempt
+from app_licences.models import Licence
+from app_licences.serializers import LicenceSerializer
 
 
 @csrf_exempt
@@ -42,3 +44,10 @@ def company_details(request, pk):
     elif request.method == 'DELETE':
         company.delete()
         return HttpResponse(status=204)
+
+
+def company_licences(request, company_name):
+    company = Company.objects.get(name=company_name)
+    licences = Licence.objects.filter(company=company)
+    serializer = LicenceSerializer(licences, many=True)
+    return JsonResponse(serializer.data, safe=False)
