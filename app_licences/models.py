@@ -3,7 +3,7 @@ from app_companies.models import Company
 
 
 class Licence(models.Model):
-    key = models.CharField(max_length=20)
+    key = models.CharField(max_length=20, unique=True)
     company = models.ForeignKey(
         'app_companies.Company',
         on_delete=models.CASCADE
