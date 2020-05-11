@@ -53,12 +53,14 @@ def licence_details(request, pk):
 def ask_licence(request, pk):
     try:
         user = FakeUser.objects.get(pk=pk)
-        licence = Licence.objects.filter(company=user.company).first()
+        licence = Licence.objects.filter(company=user.company, user_id=0).first()
     except Licence.DoesNotExist:
         return HttpResponse("Sorry your company doesn't have licence", status=400)
 
 
     if request.method == 'GET':
+        licence.user_id = user.pk
+        licence.save()
         serializer = LicenceSerializer(licence)
         return JsonResponse(serializer.data, safe=False)
 

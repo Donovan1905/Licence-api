@@ -159,6 +159,8 @@ GET /companies/details/{id}
 PUT /companies/details/{id}
 
 DELETE /companies/details/{id}
+
+GET /companies/details/{company_name}/licences
 ```
 
 
@@ -177,6 +179,8 @@ PUT /licences/details/{id}
 DELETE /licences/details/{id}
 
 GET /licences/get/{user_id}
+
+GET /licences/buy/{company_name}/{quantity}
 ```
 
 
