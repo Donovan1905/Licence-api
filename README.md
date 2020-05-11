@@ -6,10 +6,6 @@ Auteur : Donovan Hoang
 
 
 
-[toc]
-
-
-
 ## Rappel du besoin
 
 Une entreprise développant des logiciels destinés aux professionnel, vend actuellement ses logiciels avec un certains nombre d’activations possible pour une licences. Cette méthode pose problème quand les clients change de matériel et donc perdent l’accès aux logiciels qu’ils ont acheté.
@@ -150,15 +146,17 @@ class FakeUser(models.Model):
 ### Companies
 
 ```
-GET /companies
+GET /companies  //Renvoi un json contenant toutes les entreprises
 
-POST /companies
+POST /companies  //Permet créer une nouvelle entreprise en envoyant les données dans le body en json
 
-GET /companies/details/{id}
+GET /companies/details/{id}  //Renvoi un json contenant les détails d'une entreprise
 
-PUT /companies/details/{id}
+PUT /companies/details/{id}  //Modifie l'entreprise selectionnée avec les informations du body en json
 
-DELETE /companies/details/{id}
+DELETE /companies/details/{id}  //Supprime l'entrerise visée
+
+GET /companies/details/{company_name}/licences //Renvoi un json contenant toutes les licences que l'entreprise séléctionnée possèbe
 ```
 
 
@@ -166,17 +164,21 @@ DELETE /companies/details/{id}
 ### Licences
 
 ```
-GET /licences
+GET /licences  //Renvoi la liste de toutes les licences existante en json
 
-POST /licences
+POST /licences  //Créer une licence avec le json contenu dans le body (cette fonction est désactivé)
 
-GET /licences/details/{id}
+GET /licences/details/{id}  //Renvoi les détails de la licence visée en json
 
-PUT /licences/details/{id}
+PUT /licences/details/{id}  //Modifie la licence visée avec le json du body
 
-DELETE /licences/details/{id}
+DELETE /licences/details/{id}  //Supprime la licence visée
 
-GET /licences/get/{user_id}
+GET /licences/get/{user_id}  //Attribue une licence à l'utilisateur visé (si sa companie en possède et qu'il y en a une de libre)
+
+GET /licences/buy/{company_name}/{quantity}  //Génère un certains nombre de licence pour l'entreprise visée
+
+GET /licences/release/{user_id}  //Libère la licence actuellement possédée par l'utilisateur (un utilisateur ne peux posséder qu'une licence à la fois)
 ```
 
 
@@ -184,15 +186,15 @@ GET /licences/get/{user_id}
 ### Users
 
 ```
-UsersGET /users
+GET /users  //Renvoi la liste de tout les utilisateurs en json
 
-POST /users
+POST /users  //Permet de créer un utilisateur avec le json du body
 
-GET /users/details/{id}
+GET /users/details/{id}  //Renvoi les détails de l'utilisateur visé
 
-PUT /users/details/{id}
+PUT /users/details/{id}  //Modifie l'utilisateur visé
 
-DELETE /users/details/{id}
+DELETE /users/details/{id}  //Supprime l'utilisateur visé
 ```
 
 
