@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import FakeUser
+from .models import CustomUser
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FakeUser
+        model = CustomUser
         fields = ['email', 'company']

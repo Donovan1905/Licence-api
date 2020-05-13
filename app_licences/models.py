@@ -1,5 +1,6 @@
 from django.db import models
 from app_companies.models import Company
+from app_users.models import CustomUser
 
 
 class Licence(models.Model):
@@ -8,7 +9,12 @@ class Licence(models.Model):
         'app_companies.Company',
         on_delete=models.CASCADE
     )
-    user_id = models.IntegerField(default=0, null=True)
+    user = models.OneToOneField(
+        'app_users.CustomUser',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.key

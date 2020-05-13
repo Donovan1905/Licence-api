@@ -1,4 +1,4 @@
-#!c:\users\donov\documents\github\licence-api\myvenv\scripts\python.exe
+#!c:\users\donov\documents\serveur de licence soc informatique\licece_api2.0\myvenv\scripts\python.exe
 from django.core import management
 
 if __name__ == "__main__":

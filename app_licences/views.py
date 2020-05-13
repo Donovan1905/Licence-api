@@ -5,7 +5,7 @@ from .models import Licence
 from .serializers import LicenceSerializer
 from django.views.decorators.csrf import csrf_exempt
 from app_companies.models import Company
-from app_users.models import FakeUser
+from app_users.models import CustomUser
 from django.utils.crypto import get_random_string
 
 
@@ -17,15 +17,6 @@ def licence_list(request):
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
         return HttpResponse('cannot create a licence from json you nedd to buy it from /buy/<commpany_name>/<quantity>')
-        '''
-        data = JSONParser().parse(request)
-        serializer = LicenceSerializer(data = data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status = 201)
-        return JsonResponse(serializer.errors, status = 400)
-        '''
 
 
 @csrf_exempt
@@ -52,9 +43,9 @@ def licence_details(request, pk):
 
 def ask_licence(request, pk):
     try:
-        user = FakeUser.objects.get(pk=pk)
+        user = CustomUser.objects.get(pk=pk)
         try:
-            licence = Licence.objects.get(user_id=user.pk)
+            licence = Licence.objects.get(user=user)
             release_licence(request='fake_request', pk=user.pk)
         except Licence.DoesNotExist:
             pass
@@ -62,9 +53,8 @@ def ask_licence(request, pk):
     except Licence.DoesNotExist:
         return HttpResponse("Sorry your company doesn't have licence", status=400)
 
-
     if request.method == 'GET':
-        licence.user_id = user.pk
+        licence.user = user 
         licence.save()
         serializer = LicenceSerializer(licence)
         return JsonResponse(serializer.data, safe=False)
@@ -72,21 +62,19 @@ def ask_licence(request, pk):
 
 def release_licence(request, pk):
     try:
-        user = FakeUser.objects.get(pk=pk)
+        user = CustomUser.objects.get(pk=pk)
         try:
-            licence = Licence.objects.get(user_id=user.pk)
+            licence = Licence.objects.get(user=user)
         except Licence.DoesNotExist:
             return HttpResponse("User doesn't have any licence to release", status=400)
-    except FakeUser.DoesNotExist:
+    except CustomUser.DoesNotExist:
         HttpResponse('no user found', status=400)
 
     if request == 'fake_request' or request.method == 'GET':
-        licence.user_id = 0
+        licence.user = 0
         licence.save()
         return HttpResponse('Licence release for user {}'.format(user.pk))
-        
 
-    
 
 def buy_licences(request, company_name, quantity):
     if request.method == 'GET':

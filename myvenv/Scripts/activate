@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\donov\Documents\GitHub\Licence-api\myvenv"
+VIRTUAL_ENV="C:\Users\donov\Documents\Serveur de licence SOC Informatique\Licece_api2.0\myvenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
