@@ -14,7 +14,7 @@ def user_list(request):
         serializer = UserSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
-        data = JSONParser().parse(data = data)
+        data = JSONParser().parse(request)
         serializer = UserSerializer(data = data)
 
         if serializer.is_valid():
