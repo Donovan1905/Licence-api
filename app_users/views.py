@@ -5,10 +5,13 @@ from .models import CustomUser
 from .serializers import UserSerializer
 from django.views.decorators.csrf import csrf_exempt
 from app_companies.models import Company
+from rest_framework.permissions import IsAuthenticated
 
 
 @csrf_exempt
 def user_list(request):
+    permission_classes = (IsAuthenticated,) 
+
     if request.method == 'GET':
         users = CustomUser.objects.all()
         serializer = UserSerializer(users, many=True)

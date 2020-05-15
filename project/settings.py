@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app_users.apps.AppUsersConfig',
     'app_licences.apps.AppLicencesConfig',
     'app_companies.apps.AppCompaniesConfig',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'app_users.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+
+}
