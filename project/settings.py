@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app_users.apps.AppUsersConfig',
     'app_licences.apps.AppLicencesConfig',
     'app_companies.apps.AppCompaniesConfig',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

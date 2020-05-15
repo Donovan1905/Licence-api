@@ -49,9 +49,12 @@ def ask_licence(request, pk):
             release_licence(request='fake_request', pk=user.pk)
         except Licence.DoesNotExist:
             pass
-        licence = Licence.objects.filter(company=user.company, user_id=0).first()
-    except Licence.DoesNotExist:
-        return HttpResponse("Sorry your company doesn't have licence", status=400)
+        if Licence.objects.filter(company=user.company, user=None).exists():
+            licence = Licence.objects.filter(company=user.company, user=None).first()
+        else:
+            return HttpResponse('no licence please buy some')
+    except CustomUser.DoesNotExist:
+        return HttpResponse("User doesn't exists", status=400)
 
     if request.method == 'GET':
         licence.user = user 
@@ -71,7 +74,7 @@ def release_licence(request, pk):
         HttpResponse('no user found', status=400)
 
     if request == 'fake_request' or request.method == 'GET':
-        licence.user = 0
+        licence.user = None
         licence.save()
         return HttpResponse('Licence release for user {}'.format(user.pk))
 
